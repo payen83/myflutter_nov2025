@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflutter_nov2025/layout.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'My App'),
+      home: const LayoutDemo(),
     );
   }
 }
@@ -31,13 +32,26 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController num2Controller = TextEditingController();
   int total = 0;
 
-  calculate(){
+  calculate(operation){
     setState(() {
       if(num1Controller.text.isNotEmpty && num1Controller.text.isNotEmpty){
         int num1 = int.parse(num1Controller.text);
         int num2 = int.parse(num2Controller.text);
-        total = num1 + num2;
+
+        if(operation == '+'){
+          total = num1 + num2;
+        } else {
+          total = num1 - num2;
+        }  
       }
+    });
+  }
+
+  clear(){
+    setState(() {
+      num1Controller.clear();
+      num2Controller.clear();
+      total = 0;
     });
   }
 
@@ -63,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text('First Number'),
-                    hintText: 'Enter first nmumber'
+                    hintText: 'Enter first number'
                   ),
                   keyboardType: TextInputType.number
                 ),
@@ -75,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     label: Text('Second Number'),
-                    hintText: 'Enter second nmumber'
+                    hintText: 'Enter second number'
                   ),
                   keyboardType: TextInputType.number
                 ),
@@ -84,7 +98,17 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text('TOTAL: $total', style: TextStyle(fontSize: 20),),
             ),
-            IconButton(onPressed: (){ calculate(); }, icon: Icon(Icons.add, color: Colors.red,))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: (){ calculate('+'); }, icon: Icon(Icons.add, color: Colors.red,)),
+                IconButton(onPressed: (){ calculate('-'); }, icon: Icon(Icons.remove, color: Colors.red,)),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: (){ clear(); }, 
+              child: Text('Clear')
+            )
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
