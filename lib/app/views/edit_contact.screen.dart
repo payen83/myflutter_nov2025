@@ -5,12 +5,14 @@ class EditContactScreen extends StatefulWidget {
     super.key,
     required this.contact,
     required this.contactIndex,
-    required this.onEditContact
+    required this.onEditContact,
+    required this.onDeleteContact,
   });
 
   final Map<String, String> contact;
   final int contactIndex;
   final Function(int, Map<String, String>) onEditContact;
+  final Function(int) onDeleteContact;
 
   @override
   State<EditContactScreen> createState() => _EditContactScreenState();
@@ -31,11 +33,13 @@ class _EditContactScreenState extends State<EditContactScreen> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     nameController = TextEditingController(text: widget.contact['name']);
     phoneController = TextEditingController(text: widget.contact['phone']);
-    imageURLController = TextEditingController(text: widget.contact['imageURL']);
+    imageURLController = TextEditingController(
+      text: widget.contact['imageURL'],
+    );
   }
 
   void submitForm() {
@@ -48,12 +52,57 @@ class _EditContactScreenState extends State<EditContactScreen> {
 
       widget.onEditContact(widget.contactIndex, contactData);
 
+      viewSnackBar('Contact updated successfully', Colors.greenAccent);
+
       nameController.clear();
       phoneController.clear();
       imageURLController.clear();
 
       Navigator.pop(context);
     }
+  }
+
+  void showDeleteConfirm() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Contact'),
+          content: Text(
+            'Are you sure you want to delete ${widget.contact['name']}',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                deleteContact();
+              },
+              child: Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteContact() {
+    //add callback for onDeleteContact
+    widget.onDeleteContact(widget.contactIndex);
+    //Show success message
+    viewSnackBar('${widget.contact['name']} deleted successfully', Colors.red);
+    Navigator.pop(context);
+  }
+
+  void viewSnackBar(String message, Color color) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message), backgroundColor: color));
   }
 
   @override
@@ -136,6 +185,16 @@ class _EditContactScreenState extends State<EditContactScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [Icon(Icons.edit), Text('Save Changes')],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  showDeleteConfirm();
+                },
+                child: Text(
+                  'Delete Contact',
+                  style: TextStyle(color: Colors.red),
                 ),
               ),
             ],

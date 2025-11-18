@@ -37,6 +37,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
+  void deleteContact(int index){
+    setState(() {
+      contacts.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +54,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
         itemCount: contacts.length,
         itemBuilder: (context, index) {
           final contact = contacts[index];
-          return ContactItem(contact: contact, index: index, onEdit: editContact);
+          return ContactItem(
+            contact: contact, 
+            index: index, 
+            onEdit: editContact,
+            onDelete: deleteContact,
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -72,12 +83,14 @@ class ContactItem extends StatelessWidget {
     super.key,
     required this.contact,
     required this.index,
-    required this.onEdit
+    required this.onEdit,
+    required this.onDelete
   });
 
   final Map<String, String> contact;
   final int index;
   final Function(int, Map<String, String>) onEdit;
+  final Function(int) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +114,7 @@ class ContactItem extends StatelessWidget {
               contact: contact,
               contactIndex: index,
               onEditContact: onEdit,
+              onDeleteContact: onDelete,
             ))
           );
         }, 
