@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
-class AddContactScreen extends StatefulWidget {
-  const AddContactScreen({super.key, required this.onAddContact});
-  final Function(Map<String, String>) onAddContact;
+class EditContactScreen extends StatefulWidget {
+  const EditContactScreen({
+    super.key,
+    required this.contact,
+    required this.contactIndex,
+    required this.onEditContact
+  });
+
+  final Map<String, String> contact;
+  final int contactIndex;
+  final Function(int, Map<String, String>) onEditContact;
 
   @override
-  State<AddContactScreen> createState() => _AddContactScreenState();
+  State<EditContactScreen> createState() => _EditContactScreenState();
 }
 
-class _AddContactScreenState extends State<AddContactScreen> {
+class _EditContactScreenState extends State<EditContactScreen> {
   final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final imageURLController = TextEditingController();
+  late final TextEditingController nameController;
+  late final TextEditingController phoneController;
+  late final TextEditingController imageURLController;
 
   @override
   void dispose() {
@@ -20,6 +28,14 @@ class _AddContactScreenState extends State<AddContactScreen> {
     phoneController.dispose();
     imageURLController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    nameController = TextEditingController(text: widget.contact['name']);
+    phoneController = TextEditingController(text: widget.contact['phone']);
+    imageURLController = TextEditingController(text: widget.contact['imageURL']);
   }
 
   void submitForm() {
@@ -30,7 +46,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
         'imageURL': imageURLController.text,
       };
 
-      widget.onAddContact(contactData);
+      widget.onEditContact(widget.contactIndex, contactData);
 
       nameController.clear();
       phoneController.clear();
@@ -44,7 +60,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add New Contact'),
+        title: Text('Edit Contacts'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Padding(
@@ -119,7 +135,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Icon(Icons.edit), Text('Add Contact')],
+                  children: [Icon(Icons.edit), Text('Save Changes')],
                 ),
               ),
             ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myflutter_nov2025/app/views/add_contact.screen.dart';
+import 'package:myflutter_nov2025/app/views/edit_contact.screen.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key});
@@ -30,6 +31,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
+  void editContact(int index, Map<String, String> contactData){
+    setState(() {
+      contacts[index] = contactData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +48,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
         itemCount: contacts.length,
         itemBuilder: (context, index) {
           final contact = contacts[index];
-          return ContactItem(contact: contact);
+          return ContactItem(contact: contact, index: index, onEdit: editContact);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -64,9 +71,13 @@ class ContactItem extends StatelessWidget {
   const ContactItem({
     super.key,
     required this.contact,
+    required this.index,
+    required this.onEdit
   });
 
   final Map<String, String> contact;
+  final int index;
+  final Function(int, Map<String, String>) onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +92,19 @@ class ContactItem extends StatelessWidget {
           height: 40,
           fit: BoxFit.cover,
         ),
+      ),
+      trailing: IconButton(
+        onPressed: (){
+          Navigator.push(
+            context, 
+            MaterialPageRoute(builder: (context) => EditContactScreen(
+              contact: contact,
+              contactIndex: index,
+              onEditContact: onEdit,
+            ))
+          );
+        }, 
+        icon: const Icon(Icons.edit)
       ),
     );
   }
