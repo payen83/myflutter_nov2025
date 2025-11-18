@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myflutter_nov2025/main.dart';
 
 class LayoutDemo extends StatelessWidget {
   const LayoutDemo({super.key});
@@ -12,6 +13,19 @@ class LayoutDemo extends StatelessWidget {
       appBar: AppBar(
         title: Text('Flutter Layout Demo'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          TextButton(
+            onPressed: (){
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => MyHomePage(title: 'Welcome to my app')
+                )
+              );
+            }, 
+            child: Text('Home')
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
