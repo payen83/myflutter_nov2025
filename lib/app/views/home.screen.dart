@@ -1,0 +1,98 @@
+import 'package:flutter/material.dart';
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController num1Controller = TextEditingController();
+  final TextEditingController num2Controller = TextEditingController();
+  int total = 0;
+
+  calculate(operation){
+    setState(() {
+      if(num1Controller.text.isNotEmpty && num1Controller.text.isNotEmpty){
+        int num1 = int.parse(num1Controller.text);
+        int num2 = int.parse(num2Controller.text);
+
+        if(operation == '+'){
+          total = num1 + num2;
+        } else {
+          total = num1 - num2;
+        }  
+      }
+    });
+  }
+
+  clear(){
+    setState(() {
+      num1Controller.clear();
+      num2Controller.clear();
+      total = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Calculator App', 
+              style: TextStyle(
+                fontSize: 30, fontWeight: FontWeight.bold, color: Colors.green),
+              ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                  controller: num1Controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text('First Number'),
+                    hintText: 'Enter first number'
+                  ),
+                  keyboardType: TextInputType.number
+                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                  controller: num2Controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    label: Text('Second Number'),
+                    hintText: 'Enter second number'
+                  ),
+                  keyboardType: TextInputType.number
+                ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text('TOTAL: $total', style: TextStyle(fontSize: 20),),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: (){ calculate('+'); }, icon: Icon(Icons.add, color: Colors.red,)),
+                IconButton(onPressed: (){ calculate('-'); }, icon: Icon(Icons.remove, color: Colors.red,)),
+              ],
+            ),
+            ElevatedButton(
+              onPressed: (){ clear(); }, 
+              child: Text('Clear')
+            )
+          ],
+        ),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myflutter_nov2025/main.dart';
+import 'package:myflutter_nov2025/app/views/home.screen.dart';
 
 class LayoutDemo extends StatelessWidget {
   const LayoutDemo({super.key});
-
   
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class LayoutDemo extends StatelessWidget {
               Navigator.push(
                 context, 
                 MaterialPageRoute(
-                  builder: (context) => MyHomePage(title: 'Welcome to my app')
+                  builder: (context) => MyHomePage(title: 'Welcome to My App')
                 )
               );
             }, 
