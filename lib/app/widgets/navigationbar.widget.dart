@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myflutter_nov2025/app/views/contacts.screen.dart';
 import 'package:myflutter_nov2025/app/views/layout.dart';
+import 'package:myflutter_nov2025/app/views/reports.screen.dart';
 
 class Navigationbar extends StatefulWidget {
   const Navigationbar({super.key});
@@ -16,7 +17,8 @@ class _NavigationbarState extends State<Navigationbar> {
     return Scaffold(
       body: [
         const LayoutDemo(),
-        const ContactsScreen()
+        const ContactsScreen(),
+        ReportScreen()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index){
@@ -36,6 +38,11 @@ class _NavigationbarState extends State<Navigationbar> {
             selectedIcon: Icon(Icons.contacts, color: Colors.white,),
             icon: Icon(Icons.contacts_outlined), 
             label: 'Contacts'
+          ),
+          NavigationDestination(
+            selectedIcon: Icon(Icons.article, color: Colors.white,),
+            icon: Icon(Icons.article_outlined), 
+            label: 'Reports'
           ),
         ]
       ),
