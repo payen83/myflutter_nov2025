@@ -14,6 +14,10 @@ class ReportScreen extends StatelessWidget {
         title: Text('Reports'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: controller.navigateToAddReport,
+        child: Icon(Icons.add),
+      ),
       body: Obx(
         () => ListView.builder(
           itemCount: controller.reportList.length,

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:myflutter_nov2025/app/services/api.service.dart';
+import 'package:myflutter_nov2025/app/views/add_report.screen.dart';
 import '../models/report.model.dart';
 
 class ReportController extends GetxController {
@@ -13,6 +14,11 @@ class ReportController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getReports();
+  }
+
+  navigateToAddReport() async{
+    await Get.to(() => AddReportScreen());
     getReports();
   }
 
