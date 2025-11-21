@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: ElevatedButton(
-                  onPressed: (){}, 
+                  onPressed: controller.onLogin, 
                   child: Text('Login')
               ),
               )
