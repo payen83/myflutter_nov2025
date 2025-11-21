@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:myflutter_nov2025/app/services/api.service.dart';
+import 'package:myflutter_nov2025/app/services/sharedprefs.dart';
 import 'package:myflutter_nov2025/app/views/add_report.screen.dart';
+import 'package:myflutter_nov2025/app/views/login.screen.dart';
 import '../models/report.model.dart';
 
 class ReportController extends GetxController {
@@ -17,12 +19,18 @@ class ReportController extends GetxController {
     getReports();
   }
 
-  navigateToAddReport() async{
+  Future<void> navigateToAddReport() async{
     await Get.to(() => AddReportScreen());
     getReports();
   }
 
-  getReports() async {
+  Future<void> onLogout() async{
+    await SharedPrefs.removeLocalStorage('token');
+    await SharedPrefs.removeLocalStorage('user');
+    await Get.to(() => LoginScreen());
+  }
+
+  Future<void> getReports() async {
     log('Starting getReports()');
     try {
       var result = await api.getDio('/reports');

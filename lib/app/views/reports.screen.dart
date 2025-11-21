@@ -13,6 +13,12 @@ class ReportScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Reports'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          TextButton(
+            onPressed: controller.onLogout, 
+            child: Text('Logout')
+          )
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: controller.navigateToAddReport,

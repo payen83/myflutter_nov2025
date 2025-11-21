@@ -39,6 +39,9 @@ class LoginController extends GetxController{
         await SharedPrefs.setLocalStorage('token', token);
         await SharedPrefs.setLocalStorage('user', userString);
 
+        emailController.text = '';
+        passwordControler.text = '';
+        
         Get.off(() => Navigationbar());
       }
     }
